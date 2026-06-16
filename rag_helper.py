@@ -34,24 +34,28 @@ class RAGBase:
         self.model = model
 
     def search(self, query, num_results=5):
-        boost_dict = {'question': 3.0, 'section': 0.5}
-        filter_dict = {'course': self.course}
+        # boost_dict = {'question': 3.0, 'section': 0.5}
+        # filter_dict = {'course': self.course}
 
         return self.index.search(
             query,
             num_results=num_results,
-            boost_dict=boost_dict,
-            filter_dict=filter_dict
+            # boost_dict=boost_dict,
+            # filter_dict=filter_dict
         )
 
     def build_context(self, search_results):
         lines = []
 
         for doc in search_results:
-            lines.append(doc['section'])
-            lines.append('Q: ' + doc['question'])
-            lines.append('A: ' + doc['answer'])
+            # lines.append(doc['section'])
+            # lines.append('Q: ' + doc['question'])
+            # lines.append('A: ' + doc['answer'])
+            # lines.append('')
+            lines.append('file name: ' + doc['filename'])
+            lines.append('content: ' + doc['content'])
             lines.append('')
+
 
         return '\n'.join(lines).strip()
 
