@@ -1,3 +1,4 @@
+
 INSTRUCTIONS = '''
 Your task is to answer questions from the course participants
 based on the provided context.
@@ -70,16 +71,18 @@ class RAGBase:
             {'role': 'developer', 'content': self.instructions},
             {'role': 'user', 'content': prompt}
         ]
+        
 
         response = self.llm_client.responses.create(
             model=self.model,
             input=input_messages
         )
 
-        return response.output_text
+
+        return response.output_text, response.usage.input_tokens
 
     def rag(self, query):
         search_results = self.search(query)
         prompt = self.build_prompt(query, search_results)
-        answer = self.llm(prompt)
-        return answer
+        answer, prompt_tokens = self.llm(prompt)
+        return answer, prompt_tokens
